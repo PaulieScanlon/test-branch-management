@@ -19,3 +19,7 @@ jobs:
       - name: Verify Neon CLI install
         run: |
           neon --version
+
+      - name: List Projects
+        run: |
+          neon projects list
