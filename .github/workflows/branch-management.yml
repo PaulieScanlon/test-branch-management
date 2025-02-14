@@ -7,6 +7,10 @@ on:
 
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+  NEON_PROJECT_IDS: 'little-salad-54029192,autumn-bush-97691534'
+  # branch-management-dev : little-salad-54029192
+  # branch-management-test : autumn-bush-97691534
+  # NEON_PROJECT_IDS: '${{ secrets.DEV_DATABASE_ID }},${{ secrets.TEST_DATABASE_ID }}'
 
 jobs:
   dump-and-restore:
