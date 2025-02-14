@@ -1,0 +1,24 @@
+name: Branch Management
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at midnight ET (us-east-1)
+  workflow_dispatch:
+
+env:
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+jobs:
+  dump-and-restore:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Neon CLI
+        run: |
+          curl -sL https://github.com/neondatabase/neonctl/releases/latest/download/neonctl-linux-x64 -o neonctl
+          chmod +x neonctl
+          sudo mv neonctl /usr/local/bin/neonctl
+
+      - name: Verify Neon CLI install
+        run: |
+          neonctl --version
