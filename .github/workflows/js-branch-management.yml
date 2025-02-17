@@ -1,0 +1,30 @@
+name: Js Branch Management
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+env:
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+jobs:
+  list-branches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: List Branches
+        run: |
+          node .github/actions-scripts/js-list-branches.mjs

@@ -1,4 +1,4 @@
-name: Branch Management
+name: Shell Branch Management
 
 on:
   schedule:
