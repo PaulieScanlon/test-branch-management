@@ -6,7 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
-const maxDaysOld = 4;
+const threshold = 4;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
@@ -56,70 +56,82 @@ const getLastActiveAt = (endpoints) => {
 };
 
 (async () => {
-  await Promise.all(
-    neonIncludedProjectIds.map(async (projectId) => {
-      const {
-        data: {
-          project: { name, id },
-        },
-      } = await apiClient.getProject(projectId);
+  try {
+    await Promise.all(
+      neonIncludedProjectIds.map(async (projectId) => {
+        try {
+          const {
+            data: {
+              project: { name, id },
+            },
+          } = await apiClient.getProject(projectId);
 
-      const {
-        data: { endpoints },
-      } = await apiClient.listProjectEndpoints(projectId);
-      //   console.log(endpoints);
+          const {
+            data: { endpoints },
+          } = await apiClient.listProjectEndpoints(projectId);
 
-      const {
-        data: { branches },
-      } = await apiClient.listProjectBranches({ projectId: projectId });
-      //   console.log(branches);
+          const {
+            data: { branches },
+          } = await apiClient.listProjectBranches({ projectId });
+          console.log(`📌 Project ID: ${id} | 📄 Project Name: ${name}`);
+          console.log(' ');
 
-      console.log(`📌 Project ID: ${id} | 📄 Project Name: ${name}`);
-      console.log(' ');
-      const branchesWithLastActive = branches
-        .map((branch) => {
-          const includedEndpoints = endpoints.filter((endpoint) => endpoint.branch_id === branch.id);
-          const { primary, name, id, created_at, updated_at, created_by } = branch;
+          const branchesWithLastActive = branches
+            .map((branch) => {
+              const includedEndpoints = endpoints.filter((endpoint) => endpoint.branch_id === branch.id);
+              const { primary, name, id, created_at, updated_at, created_by } = branch;
 
-          return {
-            primary: primary,
-            branch_id: id,
-            branch_name: name,
-            created_at: formatDatetime(created_at),
-            updated_at: formatDatetime(updated_at),
-            last_active: getLastActiveAt(includedEndpoints),
-            created_by: created_by.name,
-          };
-        })
-        .sort((a, b) => a.created_at.localeCompare(b.created_at));
+              return {
+                primary,
+                branch_id: id,
+                branch_name: name,
+                created_at,
+                updated_at,
+                last_active: getLastActiveAt(includedEndpoints),
+                created_by: created_by?.name || 'Unknown',
+              };
+            })
+            .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-      branchesWithLastActive.forEach((branch) => {
-        const {
-          primary,
-          branch_id,
-          branch_name,
-          created_at,
-          last_active: { days_ago },
-          created_by,
-        } = branch;
+          await Promise.all(
+            branchesWithLastActive.map(async (branch) => {
+              try {
+                const {
+                  primary,
+                  branch_id,
+                  branch_name,
+                  created_at,
+                  last_active: { days_ago },
+                  created_by,
+                } = branch;
 
-        const branchIcon = primary === true ? '⭐' : '🌿';
+                const branchIcon = primary ? '⭐' : '🌿';
 
-        console.log(`${branchIcon} Branch ID: `, branch_id);
-        console.log('📄 Branch name: ', branch_name);
-        console.log('⏱️ Created at: ', formatDatetime(created_at));
-        console.log('⏰ Last active: ', `${days_ago} days ago`);
-        console.log('👤 Created by: ', created_by);
+                console.log(`${branchIcon} Branch ID: `, branch_id);
+                if (days_ago >= threshold && !primary) {
+                  // await apiClient.deleteProjectBranch(branch_id);
+                  console.log('   ↳ ⚠️ BRANCH DELETED: ', branch_name);
+                } else {
+                  console.log('📄 Branch name: ', branch_name);
+                }
+                console.log('⏱️ Created at: ', formatDatetime(created_at));
+                console.log('⏰ Last active: ', `${days_ago} days ago`);
+                console.log('👤 Created by: ', created_by);
 
-        if (days_ago >= maxDaysOld && !primary) {
-          console.log(' ↳ ⚠️', branch_name, 'has been deleted');
-          // TODO: Add api call to delete the branch by it's branch_id
+                console.log(' ');
+              } catch (error) {
+                console.error(`❌ Error processing branch ${branch_id}:`, error);
+              }
+            })
+          );
+          console.log('---');
+          console.log(' ');
+        } catch (error) {
+          console.error(`❌ Error processing project ${id}:`, error);
         }
-        console.log(' ');
-      });
-
-      console.log('---');
-      console.log(' ');
-    })
-  );
+      })
+    );
+  } catch (error) {
+    console.error('❌ Error in script:', error);
+  }
 })();
