@@ -6,6 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
+const maxDaysOld = 4;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
@@ -55,8 +56,6 @@ const getLastActiveAt = (endpoints) => {
 };
 
 (async () => {
-  console.log('Test scripts: ');
-
   await Promise.all(
     neonIncludedProjectIds.map(async (projectId) => {
       const {
@@ -80,14 +79,7 @@ const getLastActiveAt = (endpoints) => {
       const branchesWithLastActive = branches
         .map((branch) => {
           const includedEndpoints = endpoints.filter((endpoint) => endpoint.branch_id === branch.id);
-          const {
-            primary,
-            name, //branch_name, Missing
-            id, // branch_id,
-            created_at,
-            updated_at,
-            created_by,
-          } = branch;
+          const { primary, name, id, created_at, updated_at, created_by } = branch;
 
           return {
             primary: primary,
@@ -116,8 +108,13 @@ const getLastActiveAt = (endpoints) => {
         console.log(`${branchIcon} Branch ID: `, branch_id);
         console.log('📄 Branch name: ', branch_name);
         console.log('⏱️ Created at: ', formatDatetime(created_at));
-        console.log('⏰ Last Active: ', `${days_ago} days ago`);
+        console.log('⏰ Last active: ', `${days_ago} days ago`);
         console.log('👤 Created by: ', created_by);
+
+        if (days_ago >= maxDaysOld && !primary) {
+          console.log(' ↳ ⚠️', branch_name, 'has been deleted');
+          // TODO: Add api call to delete the branch by it's branch_id
+        }
         console.log(' ');
       });
 

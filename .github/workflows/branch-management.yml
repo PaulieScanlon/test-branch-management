@@ -1,4 +1,4 @@
-name: Js Branch Management
+name: Branch Management
 
 on:
   schedule:
@@ -27,4 +27,4 @@ jobs:
 
       - name: List Branches
         run: |
-          node .github/actions-scripts/js-list-branches.mjs
+          node .github/actions-scripts/list-branches.mjs
