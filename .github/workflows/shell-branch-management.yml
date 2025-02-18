@@ -7,7 +7,7 @@ on:
 
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-  NEON_PROJECT_IDS: 'polished-water-58114712,autumn-bush-97691534,little-salad-54029192'
+  NEON_INCLUDED_PROJECT_IDS: 'polished-water-58114712,autumn-bush-97691534,little-salad-54029192'
 
 jobs:
   list-branches:
@@ -33,7 +33,7 @@ jobs:
           }
 
           projects=$(neon projects list --output json)
-          IFS=',' read -r -a PROJECT_IDS <<< "$NEON_PROJECT_IDS"
+          IFS=',' read -r -a PROJECT_IDS <<< "$NEON_INCLUDED_PROJECT_IDS"
 
           for project in $(echo "$projects" | jq -c '.projects[]'); do
             PROJECT_ID=$(echo "$project" | jq -r '.id')
@@ -50,16 +50,15 @@ jobs:
                 echo "⚠️ No branches found for project 📄 $PROJECT_NAME"
               else
                 for branch in $(echo "$branches" | jq -c '.[]'); do
-                  echo "$branch" | jq .
                   IS_PRIMARY=$(echo "$branch" | jq -r '.primary')
-                  CREATOR_NAME=$(echo "$branch" | jq -r '.created_by.name')
-                  BRANCH_ID=$(echo "$branch" | jq -r '.id')
                   BRANCH_NAME=$(echo "$branch" | jq -r '.name')
+                  BRANCH_ID=$(echo "$branch" | jq -r '.id')
                   CREATED_AT=$(echo "$branch" | jq -r '.created_at')
-                  UPDATED_AT=$(echo "$branch" | jq -r '.updated_at')
+                  LAST_ACTIVE=$(echo "?")
+                  CREATED_BY=$(echo "$branch" | jq -r '.created_by.name')
 
                   FORMATTED_CREATED_AT=$(format_datetime "$CREATED_AT")
-                  FORMATTED_UPDATED_AT=$(format_datetime "$UPDATED_AT")
+
 
                   if [ "$IS_PRIMARY" == "true" ]; then
                     BRANCH_ICON="⭐"  # Star icon if primary
@@ -67,7 +66,7 @@ jobs:
                     BRANCH_ICON="🌿"  # Default branch icon
                   fi
 
-                  echo -e "  $BRANCH_ICON Branch ID: $BRANCH_ID\n    📄 Name: $BRANCH_NAME\n    ⏱️ Created: $FORMATTED_CREATED_AT\n    ⏰ Last Updated: $FORMATTED_UPDATED_AT\n    👤 Created by: $CREATOR_NAME\n"
+                  echo -e "$BRANCH_ICON Branch ID: $BRANCH_ID\n📄 Name: $BRANCH_NAME\n⏱️ Created at: $FORMATTED_CREATED_AT\n⏰ Last active: $LAST_ACTIVE\n👤 Created by: $CREATED_BY\n"
 
                 done
                 echo "---"
