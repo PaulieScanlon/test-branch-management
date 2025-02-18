@@ -1,4 +1,4 @@
-name: Branch Management
+name: Delete Stale Branches
 
 on:
   schedule:
@@ -9,7 +9,7 @@ env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
 jobs:
-  list-branches:
+  delete-stale-branches:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,6 @@ jobs:
         run: |
           npm install
 
-      - name: List Branches
+      - name: Delete Stale Branches
         run: |
-          node .github/actions-scripts/list-branches.mjs
+          node .github/actions-scripts/delete-stale-branches.mjs
