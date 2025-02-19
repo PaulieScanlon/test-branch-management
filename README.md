@@ -39,11 +39,21 @@ You'll need a [Neon API key](https://api-docs.neon.tech/reference/createapikey) 
 
 ## Local Testing
 
-To test the script locally, run:
+1. Dependencies
 
-```sh
-node .github/action-scripts/delete-stale-branches.mjs
-```
+   - Install the dependencies.
+
+     ```sh
+     npm install
+     ```
+
+2. Run script
+
+   - To test the script locally, run:
+
+     ```sh
+     node .github/action-scripts/delete-stale-branches.mjs
+     ```
 
 Which would produce an output similar to the below.
 
