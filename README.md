@@ -61,10 +61,9 @@ Which would produce an output similar to the below.
 
 - If a branch is `primary` (main), you'll see a ⭐ next to the Branch ID.
 - If a branch is a child of main, or a child of a child, you'll see 🌿 next to the Branch ID.
-- If a Branch exceeds the threshold, you'll see the ↳ ⚠️ BRANCH DELETED: message.
+- If a Branch exceeds the threshold, you'll see the `🚨 DELETED` message.
 
 ```
----
 🚀 Project ID: little-salad-54029192 | 📛 Project Name: branch-management-dev
 
 ⭐ Branch ID:  br-shy-haze-ab94gslf
@@ -73,16 +72,22 @@ Which would produce an output similar to the below.
 ⏰ Last active:  5 days ago
 👤 Created by:  Paul
 
-🌿 Branch ID:  br-calm-glitter-abds8gq0
-🗒️ Branch name:  jira-123
 👥 Parent ID: br-shy-haze-ab94gslf
-   ↳ 👶 Child branch ID: br-billowing-mountain-ab3rlkc9
-   ↳ 🚨 BRANCH DELETED:  jira-123
+   ↳ 👶 Child branch ID: br-dark-base-abyjnuw8
+🌿 Branch ID:  br-solitary-truth-abk9iult
+🗒️ Branch name:  jira-123
+⏱️ Created at:  Feb 19, 2025 @5:20:59 PM
+⏰ Last active:  0 days ago
+👤 Created by:  Paul
+🚨 DELETED:  jira-123
 
-🌿 Branch ID:  br-billowing-mountain-ab3rlkc9
+👥 Parent ID: br-solitary-truth-abk9iult
+🌿 Branch ID:  br-dark-base-abyjnuw8
 🗒️ Branch name:  jira-123--child-branch
-👥 Parent ID: br-calm-glitter-abds8gq0
-   ↳ 🚨 BRANCH DELETED:  jira-123--child-branch
+⏱️ Created at:  Feb 19, 2025 @5:21:09 PM
+⏰ Last active:  0 days ago
+👤 Created by:  Paul
+🚨 DELETED:  jira-123--child-branch
 ```
 
 ## Running via GitHub Actions
