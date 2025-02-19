@@ -17,6 +17,7 @@ This repository contains a GitHub Action and a JavaScript script to automaticall
 ### `delete-stale-branches.mjs`
 
 - The script retrieves branches from a list of project IDs using the **Neon API**.
+  Modify the `neonIncludedProjectIds` array at the top of the script to include your own project IDs
 - Stale branches exceeding the defined threshold are deleted.
 - Modify the `threshold` variable at the top of the script to adjust the retention period.
 
