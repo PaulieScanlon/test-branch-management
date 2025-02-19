@@ -69,23 +69,20 @@ Which would produce an output similar to the below.
 
 ⭐ Branch ID:  br-shy-haze-ab94gslf
 🗒️ Branch name:  main
-⏱️ Created at:  Feb 13, 2025 @18:31:44
+⏱️ Created at:  Feb 13, 2025 @6:31:44 PM
 ⏰ Last active:  5 days ago
 👤 Created by:  Paul
 
-🌿 Branch ID:  br-autumn-base-abl8tw53
+🌿 Branch ID:  br-calm-glitter-abds8gq0
 🗒️ Branch name:  jira-123
 👥 Parent ID: br-shy-haze-ab94gslf
-   ↳ 👶 Child branch ID: br-falling-union-abds8aq9
+   ↳ 👶 Child branch ID: br-billowing-mountain-ab3rlkc9
    ↳ 🚨 BRANCH DELETED:  jira-123
 
-🌿 Branch ID:  br-falling-union-abds8aq9
+🌿 Branch ID:  br-billowing-mountain-ab3rlkc9
 🗒️ Branch name:  jira-123--child-branch
-👥 Parent ID: br-autumn-base-abl8tw53
+👥 Parent ID: br-calm-glitter-abds8gq0
    ↳ 🚨 BRANCH DELETED:  jira-123--child-branch
-⏱️ Created at:  Feb 18, 2025 @13:40:08
-⏰ Last active:  1 days ago
-👤 Created by:  Paul
 ```
 
 ## Running via GitHub Actions

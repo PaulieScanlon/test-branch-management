@@ -81,6 +81,8 @@ const hasChildBranch = (branch_id, branches) => {
           const {
             data: { branches },
           } = await apiClient.listProjectBranches({ projectId });
+          console.log('---');
+          console.log(' ');
           console.log(`🚀 Project ID: ${projectId} | 📛 Project Name: ${name}`);
           console.log(' ');
 
@@ -121,9 +123,7 @@ const hasChildBranch = (branch_id, branches) => {
 
                 const branchIcon = primary ? '⭐' : '🌿';
 
-                console.log(`${branchIcon} Branch ID: `, branch_id);
-                console.log('🗒️ Branch name: ', branch_name);
-
+                console.log(' ');
                 if (!primary) {
                   console.log('👥 Parent ID:', parent_id);
                   if (has_child_branch.has_child) {
@@ -131,26 +131,25 @@ const hasChildBranch = (branch_id, branches) => {
                   }
                 }
 
+                console.log(`${branchIcon} Branch ID: `, branch_id);
+                console.log('🗒️ Branch name: ', branch_name);
+                console.log('⏱️ Created at: ', formatDatetime(created_at));
+                console.log('⏰ Last active: ', `${days_ago} days ago`);
+                console.log('👤 Created by: ', created_by);
+
                 if (days_ago >= threshold && !primary) {
-                  console.log('   ↳ 🚨 BRANCH DELETED: ', branch_name);
+                  console.log('🚨 DELETED: ', `${branch_name}`);
                   console.log(' ');
                   if (has_child_branch.has_child) {
                     await apiClient.deleteProjectBranch(projectId, has_child_branch.child_branch_id);
                   }
                   await apiClient.deleteProjectBranch(projectId, branch_id);
-                } else {
-                  console.log('⏱️ Created at: ', formatDatetime(created_at));
-                  console.log('⏰ Last active: ', `${days_ago} days ago`);
-                  console.log('👤 Created by: ', created_by);
-                  console.log(' ');
                 }
               } catch (error) {
                 console.error(`Error processing branch: `, error);
               }
             })
           );
-          console.log('---');
-          console.log(' ');
         } catch (error) {
           console.error(`Error processing project: `, error);
         }
