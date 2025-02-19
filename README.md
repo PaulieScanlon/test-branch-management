@@ -50,6 +50,8 @@ Which would produce an output similar to the below.
 ### Output
 
 ```
+---
+
 📌 Project ID: autumn-bush-97691534 | 📄 Project Name: branch-management-test
 
 ⭐ Branch ID: br-small-voice-a4bzb0mo
