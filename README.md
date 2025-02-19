@@ -59,6 +59,10 @@ Which would produce an output similar to the below.
 
 ### Output
 
+- If a branch is `primary` (main), you'll see a ⭐ next to the Branch ID.
+- If a branch is a child of main, or a child of a child, you'll see 🌿 next to the Branch ID.
+- If a Branch exceeds the threshold, you'll see the ↳ ⚠️ BRANCH DELETED: message.
+
 ```
 ---
 
