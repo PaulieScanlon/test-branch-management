@@ -139,7 +139,6 @@ const hasChildBranch = (branch_id, branches) => {
 
                 if (days_ago >= threshold && !primary) {
                   console.log('🚨 DELETED: ', `${branch_name}`);
-                  console.log(' ');
                   if (has_child_branch.has_child) {
                     await apiClient.deleteProjectBranch(projectId, has_child_branch.child_branch_id);
                   }
