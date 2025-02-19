@@ -29,14 +29,13 @@ You'll need a [Neon API key](https://api-docs.neon.tech/reference/createapikey) 
 
 1. **Local Testing:**
 
-   - Create a `.env` file and add your Neon API key:
+   - Rename `.env.example` to `.env` and add your Neon API key:
      ```sh
      NEON_API_KEY=your-api-key-here
      ```
-   - Add your project IDs to `neonIncludedProjectIds=[]` in `.github/action-scripts/delete-stale-branches.mjs`.
 
 2. **GitHub Repository Secrets:**
-   - Add the **Neon API key** as a secret in your GitHub repository under `NEON_API_KEY`.
+   - Add the **Neon API key** as a secret in your GitHub repository under the same name: `NEON_API_KEY`.
 
 ## Local Testing
 
