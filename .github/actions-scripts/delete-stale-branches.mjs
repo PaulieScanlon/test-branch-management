@@ -6,7 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
-const threshold = 1;
+const threshold = 0;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
@@ -87,7 +87,6 @@ const hasChildBranch = (branch_id, branches) => {
           const branchesWithLastActive = branches
             .map((branch) => {
               const includedEndpoints = endpoints.filter((endpoint) => endpoint.branch_id === branch.id);
-              // console.log(branch);
 
               const { primary, parent_id, name, id, created_at, updated_at, created_by } = branch;
 
