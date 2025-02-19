@@ -6,7 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
-const threshold = 1;
+const threshold = 5;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
