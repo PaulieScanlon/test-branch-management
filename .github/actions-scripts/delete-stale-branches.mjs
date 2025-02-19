@@ -131,6 +131,7 @@ const hasChildBranch = (branch_id, branches) => {
                 const branchIcon = primary ? '⭐' : '🌿';
 
                 console.log(`${branchIcon} Branch ID: `, branch_id);
+                console.log('📄 Branch name: ', branch_name);
                 if (!primary) {
                   console.log('↘️ Parent ID:', parent_id);
                   console.log('🛗 Has child branch:', has_child_branch);
@@ -143,7 +144,6 @@ const hasChildBranch = (branch_id, branches) => {
                   }
                   await apiClient.deleteProjectBranch(projectId, branch_id);
                 } else {
-                  console.log('📄 Branch name: ', branch_name);
                 }
                 console.log('⏱️ Created at: ', formatDatetime(created_at));
                 console.log('⏰ Last active: ', `${days_ago} days ago`);
