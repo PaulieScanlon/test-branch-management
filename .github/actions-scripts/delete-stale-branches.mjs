@@ -6,7 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
-const threshold = 4;
+const threshold = 1;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
@@ -55,6 +55,21 @@ const getLastActiveAt = (endpoints) => {
   };
 };
 
+const isChildBranch = (parent_id, branches) => {
+  const primaryBranch = branches.find((b) => b.primary);
+  if (!primaryBranch) return false;
+  if (!parent_id || parent_id === primaryBranch.id) return false;
+  return true;
+};
+
+const hasChildBranch = (branch_id, branches) => {
+  const childBranch = branches.find((branch) => branch.parent_id === branch_id);
+  return {
+    hasChild: !!childBranch, // Boolean indicating if a child branch is found
+    childBranchId: childBranch ? childBranch.id : null, // The ID of the child branch, or null if no child is found
+  };
+};
+
 (async () => {
   try {
     await Promise.all(
@@ -62,7 +77,7 @@ const getLastActiveAt = (endpoints) => {
         try {
           const {
             data: {
-              project: { name, id },
+              project: { name },
             },
           } = await apiClient.getProject(projectId);
 
@@ -73,21 +88,26 @@ const getLastActiveAt = (endpoints) => {
           const {
             data: { branches },
           } = await apiClient.listProjectBranches({ projectId });
-          console.log(`📌 Project ID: ${id} | 📄 Project Name: ${name}`);
+          console.log(`📌 Project ID: ${projectId} | 📄 Project Name: ${name}`);
           console.log(' ');
 
           const branchesWithLastActive = branches
             .map((branch) => {
               const includedEndpoints = endpoints.filter((endpoint) => endpoint.branch_id === branch.id);
-              const { primary, name, id, created_at, updated_at, created_by } = branch;
+              // console.log(branch);
+
+              const { primary, parent_id, name, id, created_at, updated_at, created_by } = branch;
 
               return {
                 primary,
+                parent_id,
                 branch_id: id,
                 branch_name: name,
                 created_at,
                 updated_at,
                 last_active: getLastActiveAt(includedEndpoints),
+                is_child_branch: isChildBranch(parent_id, branches),
+                has_child_branch: hasChildBranch(id, branches),
                 created_by: created_by?.name || 'Unknown',
               };
             })
@@ -98,19 +118,30 @@ const getLastActiveAt = (endpoints) => {
               try {
                 const {
                   primary,
+                  parent_id,
                   branch_id,
                   branch_name,
                   created_at,
                   last_active: { days_ago },
+                  is_child_branch,
+                  has_child_branch,
                   created_by,
                 } = branch;
 
                 const branchIcon = primary ? '⭐' : '🌿';
 
                 console.log(`${branchIcon} Branch ID: `, branch_id);
+                if (!primary) {
+                  console.log('↘️ Parent ID:', parent_id);
+                  console.log('🛗 Has child branch:', has_child_branch);
+                  console.log('👶 Is child branch: ', is_child_branch);
+                }
                 if (days_ago >= threshold && !primary) {
-                  // await apiClient.deleteProjectBranch(branch_id);
                   console.log('   ↳ ⚠️ BRANCH DELETED: ', branch_name);
+                  if (has_child_branch.hasChild) {
+                    await apiClient.deleteProjectBranch(projectId, has_child_branch.childBranchId);
+                  }
+                  await apiClient.deleteProjectBranch(projectId, branch_id);
                 } else {
                   console.log('📄 Branch name: ', branch_name);
                 }
@@ -120,14 +151,14 @@ const getLastActiveAt = (endpoints) => {
 
                 console.log(' ');
               } catch (error) {
-                console.error(`❌ Error processing branch ${branch_id}:`, error);
+                console.error(`❌ Error processing branch: `, error);
               }
             })
           );
           console.log('---');
           console.log(' ');
         } catch (error) {
-          console.error(`❌ Error processing project ${id}:`, error);
+          console.error(`❌ Error processing project: `, error);
         }
       })
     );
