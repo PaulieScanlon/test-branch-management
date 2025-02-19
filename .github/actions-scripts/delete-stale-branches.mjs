@@ -6,7 +6,7 @@ const apiClient = createApiClient({
 });
 
 const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
-const threshold = 5;
+const threshold = 1;
 
 const formatDatetime = (dateString) => {
   const date = new Date(dateString);
@@ -116,7 +116,6 @@ const hasChildBranch = (branch_id, branches) => {
                   branch_name,
                   created_at,
                   last_active: { days_ago },
-
                   has_child_branch,
                   created_by,
                 } = branch;
