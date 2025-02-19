@@ -65,26 +65,27 @@ Which would produce an output similar to the below.
 
 ```
 ---
+🚀 Project ID: little-salad-54029192 | 📛 Project Name: branch-management-dev
 
-📌 Project ID: autumn-bush-97691534 | 📄 Project Name: branch-management-test
+⭐ Branch ID:  br-shy-haze-ab94gslf
+🗒️ Branch name:  main
+⏱️ Created at:  Feb 13, 2025 @18:31:44
+⏰ Last active:  5 days ago
+👤 Created by:  Paul
 
-⭐ Branch ID: br-small-voice-a4bzb0mo
-📄 Branch name: main
-⏱️ Created at: Feb 14, 2025 @4:45:51 PM
-⏰ Last active: 5 days ago
-👤 Created by: Paul
+🌿 Branch ID:  br-autumn-base-abl8tw53
+🗒️ Branch name:  jira-123
+👥 Parent ID: br-shy-haze-ab94gslf
+   ↳ 👶 Child branch ID: br-falling-union-abds8aq9
+   ↳ 🚨 BRANCH DELETED:  jira-123
 
-🌿 Branch ID: br-tight-dust-a4a6ga33
-↳ ⚠️ BRANCH DELETED: jira-abc-update-data
-⏱️ Created at: Feb 14, 2025 @4:46:23 PM
-⏰ Last active: 5 days ago
-👤 Created by: Paul
-
-🌿 Branch ID: br-morning-block-a40lmkw5
-📄 Branch name: jira-abc-update-data--child-branch
-⏱️ Created at: Feb 17, 2025 @1:01:37 PM
-⏰ Last active: 2 days ago
-👤 Created by: Paul
+🌿 Branch ID:  br-falling-union-abds8aq9
+🗒️ Branch name:  jira-123--child-branch
+👥 Parent ID: br-autumn-base-abl8tw53
+   ↳ 🚨 BRANCH DELETED:  jira-123--child-branch
+⏱️ Created at:  Feb 18, 2025 @13:40:08
+⏰ Last active:  1 days ago
+👤 Created by:  Paul
 ```
 
 ## Running via GitHub Actions
