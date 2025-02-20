@@ -27,4 +27,4 @@ jobs:
 
       - name: Delete Stale Branches
         run: |
-          node .github/actions-scripts/delete-stale-branches.mjs
+          node .github/scripts/delete-stale-branches.mjs
