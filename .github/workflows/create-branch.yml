@@ -15,11 +15,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Neon CLI
-        run: |
-          curl -sL https://github.com/neondatabase/neonctl/releases/latest/download/neonctl-linux-x64 -o neonctl
-          chmod +x neonctl
-          sudo mv neonctl /usr/local/bin/neonctl
+        run: npm install -g neonctl@latest
 
       - name: Verify Neon CLI install
         run: |
-          neonctl --version
+          neon --version
+
+      - name: List Projects
+        run: |
+          neon projects list
