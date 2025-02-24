@@ -4,8 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       project-id:
-        description: 'Project ID'
+        description: 'Select a Project'
         required: true
+        type: choice
+        options:
+          - branch-management-dev
+          - branch-management-test
       name:
         description: 'Branch Name'
         required: true
@@ -29,6 +33,15 @@ jobs:
         run: |
           neon projects list
 
+      - name: Map Project Name to Project ID
+        run: |
+          declare -A PROJECT_NAME_TO_ID=(
+            ["branch-management-dev"]="polished-water-58114712"
+            ["branch-management-test"]="autumn-bush-97691534"
+          )
+            
+          echo "PROJECT_ID=${PROJECT_NAME_TO_ID["${{ github.event.inputs.project-id }}"]}" >> $GITHUB_ENV
+
       - name: Create Branch
         run: |
-          neon branches create --project-id "${{ github.event.inputs.project-id }}" --name "${{ github.event.inputs.name }}"
+          neon branches create --project-id "$PROJECT_ID" --name "${{ github.event.inputs.name }}"
