@@ -5,7 +5,7 @@ const apiClient = createApiClient({
   apiKey: process.env.NEON_API_KEY,
 });
 
-const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534', 'little-salad-54029192'];
+const neonIncludedProjectIds = ['polished-water-58114712', 'autumn-bush-97691534'];
 const threshold = 0;
 
 const formatDatetime = (dateString) => {
