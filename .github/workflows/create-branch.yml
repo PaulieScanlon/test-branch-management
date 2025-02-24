@@ -1,0 +1,25 @@
+name: Create Branch
+
+on:
+  workflow_dispatch:
+
+env:
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Neon CLI
+        run: |
+          curl -sL https://github.com/neondatabase/neonctl/releases/latest/download/neonctl-linux-x64 -o neonctl
+          chmod +x neonctl
+          sudo mv neonctl /usr/local/bin/neonctl
+
+      - name: Verify Neon CLI install
+        run: |
+          neonctl --version
