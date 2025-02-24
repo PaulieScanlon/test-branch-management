@@ -2,6 +2,13 @@ name: Create Branch
 
 on:
   workflow_dispatch:
+    inputs:
+      project-id:
+        description: 'Project ID'
+        required: true
+      name:
+        description: 'Branch Name'
+        required: true
 
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
@@ -11,9 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
       - name: Install Neon CLI
         run: npm install -g neonctl@latest
 
@@ -24,3 +28,7 @@ jobs:
       - name: List Projects
         run: |
           neon projects list
+
+      - name: Create Branch
+        run: |
+          neon branches create --project-id "${{ github.event.inputs.project-id }}" --name "${{ github.event.inputs.name }}"
