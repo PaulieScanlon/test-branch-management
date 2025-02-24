@@ -14,6 +14,10 @@ on:
         description: 'Branch Name'
         required: true
 
+defaults:
+  run:
+    working-directory: main
+
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
 
@@ -39,7 +43,7 @@ jobs:
             ["branch-management-dev"]="polished-water-58114712"
             ["branch-management-test"]="autumn-bush-97691534"
           )
-            
+
           echo "PROJECT_ID=${PROJECT_NAME_TO_ID["${{ github.event.inputs.project-id }}"]}" >> $GITHUB_ENV
 
       - name: Create Branch
