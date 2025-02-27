@@ -89,11 +89,7 @@ const threshold = 0;
                 console.log('👤 Created by: ', created_by);
 
                 if (days_ago >= threshold && !primary) {
-                  console.log('⚠️ THIS BRANCH IS STALE AND HAS BEEN DELETED');
-                  if (has_child_branch.has_child) {
-                    await apiClient.deleteProjectBranch(projectId, has_child_branch.child_branch_id);
-                  }
-                  await apiClient.deleteProjectBranch(projectId, branch_id);
+                  console.log('⚠️ THIS BRANCH IS STALE');
                 }
               } catch (error) {
                 console.error(`Error processing branch: `, error);
